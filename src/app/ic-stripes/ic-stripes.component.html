@@ -1,0 +1,13 @@
+<div
+  class="stripe" *ngFor="let item of [0,1,2,3,4]; let i = index"
+  [ngStyle]="{
+  'animation': 'stripes 5s -'+i+'s infinite',
+  'animation-play-state': 'paused',
+  'animation-timing-function': 'linear'
+}"
+>
+  <div class="content">
+  {{i}} {{item}}
+  </div>
+</div>
+

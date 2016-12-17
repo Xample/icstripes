@@ -1,0 +1,46 @@
+
+@media (orientation: portrait){
+  :host {
+    flex-direction: column;
+  }
+}
+
+:host {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-content: stretch;
+  align-items: center;
+}
+
+.stripe {
+  height: 100%;
+  width:100%;
+  order: 0;
+  flex: 0 1 auto;
+  align-self: stretch;
+  flex-shrink:10;
+  transition: flex-shrink 100ms linear;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+
+}
+
+.stripe:hover {
+  flex-shrink:9;
+  transition: flex-shrink 100ms linear;
+}
+
+@keyframes stripes {
+  from {
+    background-color: red;
+  }
+  to {
+    background-color: #680003;
+  }
+}
