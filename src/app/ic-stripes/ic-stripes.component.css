@@ -2,15 +2,34 @@
 @media (orientation: portrait){
   :host {
     flex-direction: column;
+    transform: skew(0deg, -7deg);
+  }
+
+  .content {
+    transform: skew(0deg, 7deg);
   }
 }
 
+@media (orientation: landscape){
+  :host {
+    transform: skew(-7deg, 0deg);
+  }
+
+  .content {
+    transform: skew(7deg, 0deg);
+  }
+
+}
+
+
 :host {
+
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-around;
   align-content: stretch;
   align-items: center;
+  overflow: hidden;
 }
 
 .stripe {
