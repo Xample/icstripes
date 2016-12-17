@@ -2,6 +2,9 @@
 @media (orientation: portrait){
   :host {
     flex-direction: column;
+  }
+
+  .stripe {
     transform: skew(0deg, -7deg);
   }
 
@@ -11,19 +14,17 @@
 }
 
 @media (orientation: landscape){
-  :host {
+
+  .stripe {
     transform: skew(-7deg, 0deg);
   }
-
   .content {
     transform: skew(7deg, 0deg);
   }
 
 }
 
-
 :host {
-
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-around;
@@ -47,7 +48,6 @@
   justify-content: center;
   align-content: center;
   align-items: center;
-
 }
 
 .stripe:hover {
