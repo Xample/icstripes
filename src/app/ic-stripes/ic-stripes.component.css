@@ -10,9 +10,17 @@
   background-color:red;
   top:-10%;
   height:120%;
-  transform: translate3d(0,0,0px) scale(1.0) rotate(7deg);
+  transform: translate3d(0,0,0px) scale(1.0) rotate(14deg);
   transform-style: preserve-3d;
+  transition: transform 1000ms linear;
+
   z-index:0;
+}
+
+.stripe.enter {
+  transform: translate3d(0,100%,0px) scale(1.0) rotate(14deg);
+  transform-style: preserve-3d;
+  transition: transform 100ms linear;
 }
 
 .stripe:hover {

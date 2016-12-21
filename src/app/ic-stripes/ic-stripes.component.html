@@ -1,6 +1,8 @@
 <div
   class="stripe" *ngFor="let item of items; let i = index"
-  [@flyInOut]="'in'+i"
+  [class.in]="state == 'in'"
+  [class.enter]="state == 'enter'"
+
   [ngStyle]="{
   'width':(100 / items.length) +'%'
   }"
