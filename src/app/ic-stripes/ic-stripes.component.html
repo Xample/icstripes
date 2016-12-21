@@ -1,0 +1,13 @@
+<div
+  class="stripe" *ngFor="let item of items; let i = index"
+  [@flyInOut]="'in'+i"
+  [ngStyle]="{
+  'width':(100 / items.length) +'%'
+  }"
+>
+  {{items}}
+  <div class="content">
+    {{i}} {{item}}
+  </div>
+</div>
+
