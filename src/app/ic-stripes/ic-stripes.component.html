@@ -1,15 +1,27 @@
 <div
-  class="stripe" *ngFor="let item of items; let i = index"
-  [class.in]="state == 'in'"
-  [class.enter]="state == 'enter'"
-
+  class="containers" *ngFor="let stripe of stripes; let i = index"
   [ngStyle]="{
-  'width':(100 / items.length) +'%'
+    'height': stripe.wideness,
+    'left': stripe.offset,
+    'top': stripe.offset,
+    'width': stripe.wideness
   }"
 >
-  {{items}}
-  <div class="content">
-    {{i}} {{item}}
+  <div
+    class="stripe"
+    [class.in]="state == 'in'"
+    [class.enter]="state == 'enter'"
+    [ngStyle]="{
+    'background-color': stripe.color,
+    'height': stripe.wideness,
+    'left': stripe.offset,
+    'top': stripe.offset,
+    'transition-delay': i * 40+'ms',
+    'width': stripe.wideness
+  }"
+  >
+  </div>
+  <div class="content" *ngIf="stripe.isInBody">
+    {{i}} Here is some content x
   </div>
 </div>
-

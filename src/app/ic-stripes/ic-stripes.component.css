@@ -1,107 +1,82 @@
-
-:host {
-  display: block;
-  overflow: hidden;
-}
-
-.stripe {
-  position:relative;
-  display: inline-block;
-  background-color:red;
-  top:-10%;
-  height:120%;
-  transform: translate3d(0,0,0px) scale(1.0) rotate(14deg);
-  transform-style: preserve-3d;
-  transition: transform 1000ms linear;
-
-  z-index:0;
-}
-
-.stripe.enter {
-  transform: translate3d(0,100%,0px) scale(1.0) rotate(14deg);
-  transform-style: preserve-3d;
-  transition: transform 100ms linear;
-}
-
-.stripe:hover {
-  transform: translate3d(0,0,1000px) scale(1.2) rotate(7deg);
-  transition: transform 100ms linear;
-  z-index:1;
-}
-
-
-.stripe:nth-child(odd) {
-  background-color: #ff756b;
-}
-
-.stripe:nth-child(0) {
-  background-color: #ff756b;
-}
-
-
-/*
 @media (orientation: portrait) {
-  :host {
-    flex-direction: column;
+  .stripe, .containers {
+    left: 0 !important;
+    width: 100% !important;
   }
 
   .stripe {
-    transform: rotate(-7deg);
+    transform: scale(1.0) skewY(-8deg) translate3d(0, 0, 0);
   }
 
-  .content {
-    transform: rotate(7deg);
+  .stripe.enter {
+    transform: scale(1.0) skewY(-8deg) translate3d(100%, 0, 0);
+  }
+
+  .containers:nth-child(odd) .stripe.enter {
+    transform: scale(1.0) skewY(-8deg) translate3d(-100%, 0, 0);
   }
 }
 
 @media (orientation: landscape) {
-
-  .stripe {
-    transform: rotate(-7deg);
+  .stripe, .containers {
+    height: 100% !important;
+    top: 0 !important;
   }
 
-  .content {
-    transform: rotate(7deg);
+  .stripe {
+    transform: scale(1.0) skewX(-8deg) translate3d(0, 0, 0);
+  }
+
+  .stripe.enter {
+    transform: scale(1.0) skewX(-8deg) translate3d(0, 100%, 0);
+  }
+
+  .containers:nth-child(odd) .stripe.enter {
+    transform: scale(1.0) skewX(-8deg) translate3d(0, -100%, 0);
   }
 }
 
 :host {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-around;
-  align-content: stretch;
-  align-items: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
   overflow: hidden;
 }
 
+.stripe, .containers {
+  cursor: pointer;
+  display: block;
+  position: fixed;
+}
+
+.containers {
+  position: absolute;
+  transform: none;
+  z-index: 10;
+}
+
 .stripe {
-  height: 100%;
-  width: 100%;
-  order: 0;
-  flex: 0 1 auto;
-  align-self: stretch;
-  flex-shrink: 10;
-  transition: flex-shrink 100ms linear;
-
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
+  transform-style: preserve-3d;
+  transition: transform 100ms linear;
 }
 
-.stripe:hover {
-  flex-shrink: 9;
-  transition: flex-shrink 100ms linear;
+.stripe.enter {
+  transition: transform 100ms linear;
 }
 
-@keyframes stripes {
-  from {
-    background-color: red;
-  }
-  to {
-    background-color: #680003;
-  }
+.containers:nth-child(odd) .stripe.enter {
 }
-*/
+
+.containers:not(:first-child):not(:last-child):hover .stripe {
+  background-color: white !important;
+}
+
+.content {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
