@@ -1,4 +1,7 @@
-import {Component, OnDestroy, Input, OnInit, ContentChild, ElementRef, AfterViewChecked} from '@angular/core';
+import {
+  Component, OnDestroy, Input, OnInit, ContentChild, ElementRef, AfterViewChecked, Output,
+  EventEmitter
+} from '@angular/core';
 
 interface Metadata {
   color:string;
@@ -21,6 +24,7 @@ interface Stripe {
 
 export class IcStripesComponent<StripeType> implements OnDestroy, OnInit, AfterViewChecked {
   @Input() items:Array<StripeType> = [];
+  @Output() choice: EventEmitter<number> = new EventEmitter();
   @ContentChild('contentTemplate') private contentTemplate:ElementRef;
 
   public state:string = "enter";
@@ -46,6 +50,12 @@ export class IcStripesComponent<StripeType> implements OnDestroy, OnInit, AfterV
 
   ngOnDestroy() {
     this.state = "leave";
+  }
+
+  private clickOnStripe(stripeIndex:number):void {
+    const relativeIndex:number = this.bodyIndex(stripeIndex);
+    const bodyStripeIndex:number = this.closestBodyIndex(relativeIndex);
+    this.choice.next(bodyStripeIndex);
   }
 
   private stripeColor(index):string {

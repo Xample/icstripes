@@ -1,5 +1,6 @@
 <div
   class="containers" *ngFor="let stripe of stripes; let i = index;"
+  (click)="clickOnStripe(i)"
   [ngStyle]="{
     'height': stripe.metadata.wideness,
     'left': stripe.metadata.offset,
