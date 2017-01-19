@@ -1,2 +1,11 @@
 <input type="checkbox" [(ngModel)]="visible">
-<app-ic-stripes *ngIf="visible" [items]="items"></app-ic-stripes>
+<app-ic-stripes *ngIf="visible" [items]="items">
+  <template #contentTemplate let-data="data" let-metadata="metadata">
+    <div class="container">
+      <div class="centered">
+        {{data}}
+        Metadata: {{metadata.index}}
+      </div>
+    </div>
+  </template>
+</app-ic-stripes>

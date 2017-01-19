@@ -1,10 +1,10 @@
 <div
-  class="containers" *ngFor="let stripe of stripes; let i = index"
+  class="containers" *ngFor="let stripe of stripes; let i = index;"
   [ngStyle]="{
-    'height': stripe.wideness,
-    'left': stripe.offset,
-    'top': stripe.offset,
-    'width': stripe.wideness
+    'height': stripe.metadata.wideness,
+    'left': stripe.metadata.offset,
+    'top': stripe.metadata.offset,
+    'width': stripe.metadata.wideness
   }"
 >
   <div
@@ -12,16 +12,18 @@
     [class.in]="state == 'in'"
     [class.enter]="state == 'enter'"
     [ngStyle]="{
-    'background-color': stripe.color,
-    'height': stripe.wideness,
-    'left': stripe.offset,
-    'top': stripe.offset,
+    'background-color': stripe.metadata.color,
+    'height': stripe.metadata.wideness,
+    'left': stripe.metadata.offset,
+    'top': stripe.metadata.offset,
     'transition-delay': i * 40+'ms',
-    'width': stripe.wideness
+    'width': stripe.metadata.wideness
   }"
   >
   </div>
-  <div class="content" *ngIf="stripe.isInBody">
-    {{i}} Here is some content x
+  <div class="content" *ngIf="stripe.metadata.isInBody">
+    <template [ngTemplateOutlet]="contentTemplate"
+              [ngOutletContext]="{ data: stripe.data, metadata: stripe.metadata }">
+    </template>
   </div>
 </div>

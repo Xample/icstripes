@@ -1,10 +1,16 @@
-import {Component, OnDestroy, Input, OnInit} from '@angular/core';
+import {Component, OnDestroy, Input, OnInit, ContentChild, ElementRef, AfterViewChecked} from '@angular/core';
 
-interface StripeMetadata {
+interface Metadata {
+  color:string;
+  index:number;
+  isInBody:boolean;
   offset:string;
   wideness:string;
-  color:string;
-  isInBody:boolean;
+}
+
+interface Stripe {
+  data:Object;
+  metadata:Metadata;
 }
 
 @Component({
@@ -13,14 +19,15 @@ interface StripeMetadata {
   styleUrls: ['./ic-stripes.component.css']
 })
 
-export class IcStripesComponent<StripeType> implements OnDestroy, OnInit {
+export class IcStripesComponent<StripeType> implements OnDestroy, OnInit, AfterViewChecked {
   @Input() items:Array<StripeType> = [];
+  @ContentChild('contentTemplate') private contentTemplate:ElementRef;
 
   public state:string = "enter";
   private leadingStripes:number = 1;
   private tailingStripes:number = 1;
   private stripesColors:string[] = ['#C70000', '#AA0000', '#8F0000', '#6E0000', '#5A0000'];
-  private stripes:Array<StripeMetadata> = [];
+  private stripes:Array<Stripe> = [];
 
   constructor() {
   }
@@ -31,6 +38,14 @@ export class IcStripesComponent<StripeType> implements OnDestroy, OnInit {
         this.state = "default";
       }, 0
     );
+  }
+
+  ngOnInit() {
+    this.buildStripes();
+  }
+
+  ngOnDestroy() {
+    this.state = "leave";
   }
 
   private stripeColor(index):string {
@@ -53,27 +68,36 @@ export class IcStripesComponent<StripeType> implements OnDestroy, OnInit {
     return index - this.leadingStripes;
   }
 
-  private stripeWidth():number {
-    const idealWidth:number = 1 / this.bodyStripesCount();
-    return idealWidth;
+  private stripeWidthInPercents():number {
+    return 100 / this.bodyStripesCount();
   }
 
   private stripeWidthStyle():string {
     // The overflow percentage prevents having white dots in the borders
-    const overflowPercentage:number = 1;
-    return (this.stripeWidth() * (100 + overflowPercentage)) + '%';
+    const overflowPercentage:number = 1.01;
+    return this.stripeWidthInPercents() * overflowPercentage + '%';
   }
 
   private stripeOffsetStyle(stripeIndex:number):string {
-    return (this.stripeWidth() * 100) * this.bodyIndex(stripeIndex) + '%';
+    return this.stripeWidthInPercents() * this.bodyIndex(stripeIndex) + '%';
   }
 
-  private buildStripe(index:number):StripeMetadata {
+  private dataForStripe(stripeIndex:number):Object {
+    if (!this.isInBody(stripeIndex)) return undefined;
+    const relativeIndex:number = this.bodyIndex(stripeIndex);
+    return this.items[relativeIndex];
+  }
+
+  private buildStripe(index:number):Stripe {
     return {
-      offset: this.stripeOffsetStyle(index),
-      wideness: this.stripeWidthStyle(),
-      color: this.stripeColor(index),
-      isInBody: this.isInBody(index)
+      data: this.dataForStripe(index),
+      metadata : {
+        color: this.stripeColor(index),
+        index: index,
+        isInBody: this.isInBody(index),
+        offset: this.stripeOffsetStyle(index),
+        wideness: this.stripeWidthStyle()
+      }
     }
   }
 
@@ -86,18 +110,10 @@ export class IcStripesComponent<StripeType> implements OnDestroy, OnInit {
   }
 
   private buildStripes() {
-    const stripes:Array<StripeMetadata> = [];
+    const stripes:Array<Stripe> = [];
     for (let index = 0; index < this.totalStripesCount(); index++) {
       stripes[index] = this.buildStripe(index);
     }
     this.stripes = stripes;
-  }
-
-  ngOnInit() {
-    this.buildStripes();
-  }
-
-  ngOnDestroy() {
-    this.state = "leave";
   }
 }
